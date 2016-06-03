@@ -283,7 +283,7 @@ app.post('/upload', function(req, res ) {
 
 });
 
-app.post('/addReview/',function(req,res){
+app.post('/PostProductReviewById/',function(req,res){
   var a={};
   a=req.body;
   var productId=req.body.id;

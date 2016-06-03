@@ -15,14 +15,14 @@
   </div>
 
   <div class="col-xs-12 col-sm-8">
-    <div  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS" >
+    <div  ng-repeat="det in getProductDetailList"  ng-init="vm.rating = det.STATUS" >
       <h1>{{det.NAME}}</h1>
       <p>{{det.DESCRIPTION}}</p>
 
     </div>
 
     <div >
-      <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+      <div  class="star-rating" star-rating rating-value="vm.rating" data-max="5" on-rating-selected="rateFunction(vm.rating)"></div>
       <br>
 
         <a ng-click="addReviewHide=true"style="margin-left: 40px"   role="button">Write Review</a>
@@ -33,7 +33,7 @@
     </div>
 <!--addReview-->
     <div  ng-hide="!addReviewHide">
-      <form name="vm.upload_form" class="form-horizontal">
+      <form name="vm.upload_form" class="form-horizontal"  ng-submit="vm.reviewDiscription()">
         <div style="font-size: 30px" class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
         <br>
 
@@ -47,7 +47,7 @@
 
 
 
-        <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false;vm.submit()">Submit</button>
+        <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false">Submit</button>
         <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false">Close</button>
       </form>
     </div>

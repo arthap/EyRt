@@ -12,6 +12,7 @@
         service.GetProductList = GetProductList;
         service.GetProductDetailById=GetProductDetailById;
         service.GetProductDetailImageById=GetProductDetailImageById;
+        service.PostProductReviewById=PostProductReviewById;
         service.GetAll = GetAll;
         service.GetById = GetById;
         service.GetByUserEmail = GetByUserEmail;
@@ -20,6 +21,7 @@
         service.Forgot=Forgot;
         service.Update = Update;
         service.Delete = Delete;
+
 
         return service;
         function GetProductList(searchingText) {
@@ -31,6 +33,7 @@
         function GetProductDetailById(id) {
             return $http.post('/GetProductDetailById/' + id).then(handleSuccess, handleError('Error getting product by id'));
         }
+       
         function GetAll() {
             return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
@@ -44,37 +47,45 @@
 
         function Create(user) {
             var deferred = $q.defer();
-              $http({
+            $http({
 
                 method: 'POST',
                 url: '/api/usersCreate',
-                data:'PASSWORD=' + user.PASSWORD+'&USERNAME='+user.USERNAME+'&E_MAIL='+user.eMail,
+                data: 'PASSWORD=' + user.PASSWORD + '&USERNAME=' + user.USERNAME + '&E_MAIL=' + user.eMail,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(function(respond){
-                  deferred.resolve({ success: true });
+            }).then(function (respond) {
+                deferred.resolve({success: true});
+                // if success
+                console.log(respond);
+            }, function (error) {
+                // if an error
+                deferred.resolve({success: false, message: error.data});
+                console.error(error);
+            });
+            return deferred.promise;
+        }
+            function PostProductReviewById(addReview) {
+                
+
+                var deferred = $q.defer();
+                $http({
+
+                    method: 'POST',
+                    url: '/PostProductReviewById/',
+                    data:'reviw=' + addReview.review+'&userId='+addReview.userId+'&productId='+addReview.productId+'&like='+addReview.like+'&disLike='+addReview.disLike+'&curRate='+addReview.curRate,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function(respond){
+                    deferred.resolve({ success: true });
                     // if success
                     console.log(respond);
                 }, function(error){
                     // if an error
-                  deferred.resolve({ success: false ,message:error.data });
+                    deferred.resolve({ success: false ,message:error.data });
                     console.error(error);
                 });
-            return deferred.promise;
-            //     .success(function(result, status, headers, config) {
-            //     console.log(result);
-            //     if(result.status == "200"){
-            //
-            //     }
-            // }).error(function(result, status, headers, config) {
-            //     // called asynchronously if an error occurs
-            //     // or server returns response with an error status.
-            //     console.log(result);
-            //
-            // });
+                return deferred.promise;
+            }
 
-
-       // return   $http.post('/api/users',user).then(handleSuccess, handleError('Error creating user'));
-        }
         function Reset(password,confirm,token) {
             var deferred = $q.defer();
             $http({

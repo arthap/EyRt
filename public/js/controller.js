@@ -49,7 +49,7 @@ easyrateApp.config([
 				controller:'ResetCtrl',
 				controllerAs: 'vm'
 			})
-			.when('/phones/:phoneId', {
+			.when('/phones/:productId', {
 				templateUrl:'template/phone-detail.html',
 				controller:'PhoneDetailCtrl',
 				controllerAs: 'vm'
@@ -78,6 +78,49 @@ function run($rootScope, $location, $cookieStore, $http) {
 	});
 }
 
+
+easyrateApp.directive('starRating',
+	function() {
+		return {
+			restrict : 'A',
+			template : '<ul class="rating">'
+			+ '	<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">'
+			+ '\u2605'
+			+ '</li>'
+			+ '</ul>',
+			scope : {
+				ratingValue : '=',
+				max : '=',
+				onRatingSelected : '&'
+			},
+			link : function(scope, elem, attrs) {
+				var updateStars = function() {
+					scope.stars = [];
+					for ( var i = 0; i < scope.max; i++) {
+						scope.stars.push({
+							filled : i < scope.ratingValue
+						});
+					}
+				};
+
+				scope.toggle = function(index) {
+					scope.ratingValue = index + 1;
+					scope.onRatingSelected({
+						rating : index + 1
+					});
+				};
+
+				scope.$watch('ratingValue',
+					function(oldVal, newVal) {
+						if (newVal) {
+							updateStars();
+						}
+					}
+				);
+			}
+		};
+	}
+);
 /* Factory */
 easyrateApp.factory('Phone', [
 	'$resource', function($resource) {
@@ -322,9 +365,10 @@ easyrateApp.controller('UserPageCtrl',[
 easyrateApp.controller('PhoneDetailCtrl',[
 	'$scope','$http', '$location', '$routeParams', 'Phone','UserService',
 	function($scope, $http, $location, $routeParams, Phone,UserService) {
-		$scope.phoneId = $routeParams.phoneId;
-
-		Phone.get({phoneId: $routeParams.phoneId}, function(data) {
+		$scope.productId = $routeParams.productId;
+		var vm = this;
+		vm.reviewDiscription = reviewDiscription;
+		Phone.get({productId: $routeParams.productId}, function(data) {
 			$scope.phone = data;
 			$scope.mainImageUrl = data.images[0];
 			//data.$save();
@@ -344,7 +388,8 @@ easyrateApp.controller('PhoneDetailCtrl',[
 		$scope.hidden3 =true;
 
 
-		UserService.GetProductDetailById($routeParams.phoneId)
+      
+		UserService.GetProductDetailById($routeParams.productId)
 			.then(function (productDetailById) {
 				if (productDetailById.length >0) {
 					$scope.getProductDetailList = productDetailById;
@@ -353,7 +398,7 @@ easyrateApp.controller('PhoneDetailCtrl',[
 
 				}
 			});
-		UserService.GetProductDetailImageById($routeParams.phoneId)
+		UserService.GetProductDetailImageById($routeParams.productId)
 			.then(function (productImageById) {
 				if (productImageById.length >0) {
 					$scope.getProductDetaiImagelList = productImageById;
@@ -364,6 +409,23 @@ easyrateApp.controller('PhoneDetailCtrl',[
 			});
 
 
+	
+
+
+
+		function reviewDiscription() {
+			UserService.PostProductReviewById(vm)
+				.then(function (productImageById) {
+					if (productImageById.length > 0) {
+						$scope.getProductDetaiImagelList = productImageById;
+						$scope.mainImageUrl = $scope.getProductDetaiImagelList[0].RESOURCE;
+					} else {
+
+					}
+				});
+
+		}
+		
 	}
 ]);
 
