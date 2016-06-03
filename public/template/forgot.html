@@ -1,0 +1,41 @@
+<!--<div  class="col-md-6 col-md-offset-3">-->
+
+    <!--<div class="auth-form">-->
+        <!--&lt;!&ndash; </textarea> &ndash;&gt;&lt;!&ndash; '"` &ndash;&gt;<form accept-charset="UTF-8" action="/api/sendemail/" data-form-nonce="ee93c5272ad5343b14c3bedf7a006c082934bf81" id="forgot_password_form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="fdAeFgdX9p6gYpGr5hN7nsgvBzWhIi3VVKZhfS6Z/ERsol3V3rbWAROC3oYcCL+PvcaXki0LUncOGAlGeSJpTQ=="></div>-->
+        <!--<div class="auth-form-header">-->
+            <!--<h1>Reset your password</h1>-->
+        <!--</div>-->
+        <!--<div id="js-flash-container">-->
+        <!--</div>-->
+
+        <!--<div class="auth-form-body">-->
+            <!--<label for="email_field">Enter your email address and we will send you a link to reset your password.</label>-->
+            <!--<input autofocus="autofocus" class="form-control input-block" id="email_field" name="email" placeholder="Enter your email address" type="text">-->
+            <!--<input name="commit" type="submit" value="Send password reset email" class="btn btn-primary btn-block">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<div class="col-md-6 col-md-offset-3">
+    <h1>Reset your password</h1>
+
+    <form name="form" ng-submit="vm.forgot()" role="form">
+
+        <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }" >
+            <label for="email">Enter your e-mail.</label>
+            <input type="email" name="email" id="email" class="form-control" ng-model="vm.email" required />
+            <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail is required</span>
+            <!--<span style="color:red" ng-show="!form.email.$error.required && form.email.$error.email && form.email.$dirty">invalid email</span>-->
+            <span style="color:green" ng-show="message">{{notification}}</span>
+            <span style="color:red" ng-show="errorMsg">{{notification}}</span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Send password reset email</button>
+            <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+        </div>
+    </form>
+</div>

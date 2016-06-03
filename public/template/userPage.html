@@ -1,0 +1,42 @@
+<div ng-init="vm.login()" >
+<div class="form-actions">
+    <a  href="#/addProduct"   class="btn btn-primary">Add</a>
+    <a   class="glyphicon glyphicon-envelope" href="#/addProduct"> </a>
+    <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+</div>
+
+</div>
+
+
+<h1>Hi {{vm.userData.username}}!</h1>
+<!--<div class="avatar"></div>-->
+<div style="width: 150px;height: 200px" class="avatar">
+    <img width="150px" height="200px" src="{{vm.userData.AVATAR}}">
+    <!--<div  >-->
+        <!--<input type="file" file-model="myFile"/>-->
+        <!--<button ng-click="uploadFile()">upload me</button>-->
+    <!--</div>-->
+
+</div>
+
+<form   name="vm.upload_form" >
+
+    <input
+            type="file"
+            ngf-select
+            ng-model="vm.file"
+            name="userFoto"
+            ngf-pattern="'image/*'"
+            accept="image/*"
+            ngf-max-size="20MB"
+    />
+    <input type="hidden" name="id" id="Id" class="form-control" value={{vm.userData.ID}} required />
+
+
+    <button type="submit" ng-click="vm.submit()">submit</button>
+    <p>{{vm.progress}}</p>
+</form>
+<p>&nbsp;</p>
+<p><a href="#/sign_in" class="btn btn-primary">Logout</a></p>
+

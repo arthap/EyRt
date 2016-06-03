@@ -1,0 +1,102 @@
+<div class="col-md-12" align="center">
+
+
+        <form name="vm.upload_form" class="form-horizontal">
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Image:</label>
+                <div class="col-sm-6">
+                    <div class="col-md-8">
+                        <input style="height: auto" class="form-control"
+                                type="file"
+                                ngf-select
+                                ng-model="vm.file"
+                                name="file"
+                                ngf-pattern="'image/*'"
+                                accept="image/*"
+                                ngf-max-size="20MB"
+                        />
+                        <!--<input   style="height: auto" class="form-control"-->
+                                 <!--type="file"-->
+                                 <!--ngf-select-->
+                                 <!--ng-model="vm.file"-->
+                                 <!--name="file"-->
+                                 <!--ngf-pattern="'image/*'"-->
+                                 <!--accept="image/*"-->
+                                 <!--ngf-max-size="20MB" />-->
+
+                        <span	id="imgError" style="color: red;"> </span> <br />  <br />
+                        <img width="150px"height="200px" ngf-src="vm.file" class="thumb">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Name:</label>
+                        <div class="col-sm-4">
+                            <input id="nameSave"  maxlength=16 type="text"
+                                   name="myName" class="form-control" ng-model="vm.name" value="" placeholder="Name">
+                            <span style="color: red;" id="nameError"> </span> </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Brand:</label>
+                        <div class="col-sm-4">
+                            <input value="vm.brand" id="brandSave" maxlength=22 type="text"
+                                   name="brand" class="form-control" ng-model="vm.brand" value=""
+                                   placeholder="Brand"> <span
+                                style="color: red;" id="brandError"> </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Short Text:</label>
+                        <div class="col-sm-4">
+						 <textarea id="shortText" maxlength="48"  class="form-control" name="shortText"
+                                          ng-model="vm.shortText"
+                                          placeholder="Short_Text" value=""></textarea>
+                            <span style="color: red;" id="shortTextError"> </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Status:</label>
+                        <div class="col-sm-4">
+                            <input id="status" maxlength=4 type="text" name="status"
+                                   class="form-control" ng-model="vm.status" value=" "	placeholder="Status">
+                            <span id="statusError"    style="color: red;"> </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Description:</label>
+                        <div class="col-sm-4">
+
+								<textarea id="descriptionSave" maxlength=44 type="text" value=""
+                                          name="Description" class="form-control"
+                                          ng-model="vm.description" placeholder="description"></textarea>
+                            <span style="color: red" id="descriptionError"> </span>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" id="id" class="form-control" value=""ng-model="vm.id" required />
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <br /> <br />
+                            <!--<input id="btnSave" class="btn btn-primary" name="submit" type="submit" value="Save">-->
+                            <button class="btn btn-primary" type="submit" ng-click="vm.submit()">submit</button>
+                            <p>{{vm.progress}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </form>
+     </div>
+
+
+
+
+
+

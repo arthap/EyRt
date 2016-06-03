@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <div class="phone-images">
+      <img  width="200" height="250px" ng-src="{{mainImageUrl}}">
+    </div>
+    <ul class="phone-thumbs list-unstyled">
+      <li ng-repeat="img in phone.images">
+        <img  ng-src="{{img}}" ng-click="setImage(img)">
+        {{getProductDetailList}}
+      </li>
+      <li ng-repeat="image in getProductDetaiImagelList">
+        <img ng-src="{{image.RESOURCE}}" ng-click="setImage(image.RESOURCE)">
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-xs-12 col-sm-8">
+    <div  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS" >
+      <h1>{{det.NAME}}</h1>
+      <p>{{det.DESCRIPTION}}</p>
+
+    </div>
+
+    <div >
+      <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+      <br>
+
+        <a ng-click="addReviewHide=true"style="margin-left: 40px"   role="button">Write Review</a>
+      <!--<a  style="margin-left: 10px"class="btn btn-default" href="#/phones/{{product.PRODUCT_ID}}" role="button">Folow/Unfolow</a>-->
+
+        <a  class="buttonFollow" ng-class="{'activeFollow': isActive}" ng-click=" isActive = !isActive" type="button">Folow/Unfolow</a>
+
+    </div>
+<!--addReview-->
+    <div  ng-hide="!addReviewHide">
+      <form name="vm.upload_form" class="form-horizontal">
+        <div style="font-size: 30px" class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+        <br>
+
+
+        <fieldset  class="form-group">
+          <label for="review">Review</label>
+          <textarea  ng-model="vm.review"   class="form-control" id="review" rows="10"></textarea>
+        </fieldset>
+
+
+
+
+
+        <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false;vm.submit()">Submit</button>
+        <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false">Close</button>
+      </form>
+    </div>
+    <!--endadd review-->
+    <!--tabs-->
+    <div ng-hide="addReviewHide" style="padding: 30px" class="container">
+      <ul class="nav nav-tabs" role="tablist">
+        <li ng-class="active"  ng-click="active='active';active2='';active3='';;active1=''"><a ng-click="hidden=false;hidden2=true;hidden3=true;hidden1=true"    role="tab" data-toggle="tab">Review</a></li>
+        <li ng-class="active1" ng-click="active1='active';active2='';active3='';active=''"><a ng-click="hidden1=false;hidden=true;hidden2=true;hidden3=true"  role="tab" data-toggle="tab">User Pics</a></li>
+        <li ng-class="active2" ng-click="active2='active';active1='';active3='';active=''"><a ng-click="hidden2=false;hidden=true;hidden3=true;hidden1=true"   role="tab" data-toggle="tab">Additional Info</a></li>
+        <li ng-class="active3" ng-click="active3='active';active2='';active='';active1=''"><a  ng-click="hidden3=false;hidden=true;hidden2=true;hidden1=true"   role="tab" data-toggle="tab">External Review</a></li>
+      </ul>
+      <div ng-hide="hidden"class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+      <div class="col-md-1">
+        <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
+        {{det.NAME}}
+      </div>
+      <div   class="col-md-8">
+        <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+      </div>
+      <div class="col-md-6">{{det.DESCRIPTION}} </div>
+    </div>
+
+      <div ng-hide="hidden1" class="row col-md-8"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+        <div class="col-xs-6 col-md-4" ng-repeat="image in getProductDetaiImagelList">
+          <img width="200px" height="200px" ng-src="{{image.RESOURCE}}"  >
+
+        </div>
+
+        </div>
+
+      <div  ng-hide="hidden2"    class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+        <div class="col-md-1">
+          <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
+          {{det.NAME}}
+        </div>
+        <div   class="col-md-8">
+          <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+        </div>
+        <div class="col-md-6">{{det.DESCRIPTION}} </div>
+      </div>
+
+      <div ng-hide="hidden3" class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+        <div class="col-md-1">
+          <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
+          {{det.NAME}}
+        </div>
+        <div class="container">
+        <div   class="col-md-4">
+          <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"> </div>
+
+        </div>
+          <div class="col-md-1" ><h1 align="right">LOGO</h1></div>
+        </div>
+        <div class="col-md-6">'Content here, content here', making it look like readable English. Man{{det.DESCRIPTION}} </div>
+      </div>
+  </div>
+ </div>
+  </div>

@@ -1,0 +1,18 @@
+.buttonFollow {
+    border: none;
+    padding: 11px;
+    color: #fff;
+    margin: 0 10px;
+    background: blue;
+    cursor:pointer;
+    border-radius: 4px;
+}
+
+.activeFollow {
+    background: #FF735C;
+}
+
+.disabled {
+    background: #eee;
+    color: #aaa;
+}

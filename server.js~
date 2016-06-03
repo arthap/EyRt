@@ -1,0 +1,88 @@
+// MEAN Stack RESTful API Tutorial - Contact List App
+
+var express = require('express');
+var app = express();
+var mongojs = require('mongojs');
+var db = mongojs('contactlist', ['contactlist']);
+var bodyParser = require('body-parser');
+
+
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : '192.168.20.195',
+  user     : 'root',
+  password : 'root',
+  database : 'Test'
+});
+
+connection.connect();
+connection.query('SELECT * from LABELS', function(err, rows, fields) {
+  if (!err)
+    console.log('The solution is: ', rows);
+  else
+    console.log('Error while performing Query.');
+});
+
+connection.end();
+
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+
+app.get('/contactlist', function (req, res) {
+  console.log('I received a GET request');
+
+  db.contactlist.find(function (err, docs) {
+    console.log(docs);
+    res.json(docs);
+  });
+});
+
+app.post('/contactlist', function (req, res) {
+connection.connect();
+ );
+connection.query('INSERT INTO LABELS (articleNumber,name,size,indicator,color,brand,pricegroup,material,description,image,date,longDescription,kategorie,warehouse ) VALUES(1000220,"Art","34","1","red","chanel","A","cotton","fdkhgasldg.NSGV.","/A/A/A/A.PNG","2016","H","londone","aaaaa")', function(err, rows, fields) {
+  if (!err)
+    console.log('The solution is: ', rows);
+  else
+    console.log('Error while performing Query.');
+});
+connection.end();
+  console.log(req.body);
+  db.contactlist.insert(req.body, function(err, doc) {
+    res.json(doc);
+  });
+});
+
+app.delete('/contactlist/:id', function (req, res) {
+  var id = req.params.id;
+  console.log(id);
+  db.contactlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+app.get('/contactlist/:id', function (req, res) {
+
+
+
+  var id = req.params.id;
+  console.log(id);
+  db.contactlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+app.put('/contactlist/:id', function (req, res) {
+  var id = req.params.id;
+  console.log(req.body.name);
+  db.contactlist.findAndModify({
+    query: {_id: mongojs.ObjectId(id)},
+    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
+    new: true}, function (err, doc) {
+      res.json(doc);
+    }
+  );
+});
+
+app.listen(3000);
+console.log("Server running on port 3000");

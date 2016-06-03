@@ -1,0 +1,62 @@
+<!--<h1>Sing In</h1>-->
+
+<!--<form class="form-horizontal" role="form">-->
+    <!--<div class="form-group">-->
+        <!--<label for="inputName3" class="col-sm-2 control-label">Name</label>-->
+        <!--<div class="col-sm-4">-->
+            <!--<input class="form-control" id="inputName3" placeholder="Name">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+        <!--<label for="inputEmail3" class="col-sm-2 control-label">Email</label>-->
+        <!--<div class="col-sm-4">-->
+            <!--<input class="form-control" id="inputEmail3" placeholder="Email">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+        <!--<label for="inputPassword3" class="col-sm-2 control-label">Password</label>-->
+        <!--<div class="col-sm-4">-->
+            <!--<input class="form-control" id="inputPassword3" placeholder="Password">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+        <!--<div class="col-sm-offset-2 col-sm-10">-->
+            <!--<button type="submit" class="btn btn-success">Sign up</button>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</form>-->
+<div class="col-md-12">
+<div class="col-md-6 col-md-offset-3">
+    <h2>Sign in</h2>
+
+    <form name="form" ng-submit="vm.login()" role="form">
+        <!--<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">-->
+            <!--<label  for="username">Username</label>-->
+            <!--<input type="text" name="username" id="username" class="form-control" ng-model="vm.username" required />-->
+            <!--<span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>-->
+        <!--</div>-->
+        <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+            <label   for="email">E-mail</label>
+            <input type="text" name="email" id="email" class="form-control" ng-model="vm.email" required />
+            <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" ng-model="vm.password" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" >Sign in</button>
+            <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+            <a href="#/register" class="btn btn-link">Register</a>
+            <a href="#/forgot" class="btn btn-link">Forgot password?</a>
+            <a id="fb-account" class="large button blue">login with Facebook</a>
+              <script src="js/fblog.js"></script>
+            <fb:login-button autologoutlink='true'  perms='email,user_birthday,status_update,publish_stream'></fb:login-button>
+
+            <!--<div id="fb-root"></div>-->
+             </div>
+    </form>
+</div>
+</div>
