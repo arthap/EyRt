@@ -5,8 +5,8 @@
         .module('easyrateApp')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $cookieStore, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', '$timeout', 'UserService','UserDataService'];
+    function AuthenticationService($http, $cookieStore, $rootScope, $timeout, UserService,UserDataService) {
         var userData={};
         var service = {};
 
@@ -25,6 +25,8 @@
                 UserService.GetByUserEmail(email)
                     .then(function (user) {
                         if (user !== null && user[0].PASSWORD === password) {
+                            UserDataService.setUserData(user);
+                            
                             userData.username=user[0].USERNAME;
                             response = { success: true };
                         } else {

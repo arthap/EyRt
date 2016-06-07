@@ -15,16 +15,24 @@
   </div>
 
   <div class="col-xs-12 col-sm-8">
-    <div  ng-repeat="det in getProductDetailList"  ng-init="vm.rating = det.CURRENT_SCORE
-" >
+    <div  ng-repeat="det in getProductDetailList"  ng-init="vm.rating = det.CURRENT_SCORE" >
       <h1>{{det.NAME}}</h1>
       <p>{{det.DESCRIPTION}}</p>
+      <div  class="star-rating col-md-3" star-rating rating-value="vm.rating=vm.rating" data-max="5" >
+       </div>
+      <div class="col-md-1">
+        <span ng-if="det.CURRENT_SCORE >4">Good</span>
+        <span ng-if="det.CURRENT_SCORE ==3">Normal</span>
+        <span ng-if="det.CURRENT_SCORE <3">Bad</span>
+        <br>
 
-    </div>
+      </div><br>
+
+      <br>
+    </div>   <br>
 
     <div >
-      <div  class="star-rating" star-rating rating-value="vm.rating" data-max="5" on-rating-selected="rateFunction(vm.rating)"></div>
-      <br>
+
 
         <a ng-click="addReviewHide=true; vm.review='';"style="margin-left: 40px"   role="button">Write Review</a>
       <!--<a  style="margin-left: 10px"class="btn btn-default" href="#/phones/{{product.PRODUCT_ID}}" role="button">Folow/Unfolow</a>-->
@@ -45,21 +53,22 @@
     </div>
 <!--addReview-->
     <div  ng-hide="!addReviewHide">
-      <form name="vm.upload_form" class="form-horizontal"  ng-submit="vm.reviewDiscription()">
+      <form name="form" class="form-horizontal"  ng-submit="vm.reviewDiscription()">
         <div style="font-size: 30px" class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
         <br>
 
-
         <fieldset  class="form-group">
           <label for="review">Review</label>
-          <textarea  ng-model="vm.review"   class="form-control" id="review" rows="10"></textarea>
+          <textarea name="review"  ng-model="vm.review"   class="form-control" id="review" rows="10" required></textarea>
         </fieldset>
+        <span ng-show="form.review.$dirty && form.review.$error.required" class="help-block">Review is required</span>
 
 
 
 
 
-        <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false">Submit</button>
+
+        <button type="submit"   ng-disabled="form.$invalid" class="btn btn-primary" ng-click="addReviewHide=false">Submit</button>
         <button type="submit" class="btn btn-primary" ng-click="addReviewHide=false">Close</button>
       </form>
     </div>
@@ -72,15 +81,17 @@
         <li ng-class="active2" ng-click="active2='active';active1='';active3='';active=''"><a ng-click="hidden2=false;hidden=true;hidden3=true;hidden1=true"   role="tab" data-toggle="tab">Additional Info</a></li>
         <li ng-class="active3" ng-click="active3='active';active2='';active='';active1=''"><a  ng-click="hidden3=false;hidden=true;hidden2=true;hidden1=true"   role="tab" data-toggle="tab">External Review</a></li>
       </ul>
-      <div ng-hide="hidden"class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+      <div ng-hide="hidden"class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.CURRENT_SCORE">
       <div class="col-md-1">
         <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
         {{det.NAME}}
       </div>
       <div   class="col-md-4">
-        <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"> </div>
-
+        <div class="col-md-6" class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"> </div>
+        <div class="col-md-1" style="margin-top:8px">{{det.CURRENT_SCORE}}</div>
       </div>
+
+
         <div class="col-md-2">
           <a ng-show="isActive"href="" ng-click=" isActive = !isActive">
             <span class="glyphicon glyphicon-thumbs-up"> like</span>
@@ -100,7 +111,7 @@
       <div class="col-md-8">{{det.DESCRIPTION}} </div>
     </div>
 
-      <div ng-hide="hidden1" class="row col-md-8"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+      <div ng-hide="hidden1" class="row col-md-8"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.CURRENT_SCORE">
         <div class="col-xs-6 col-md-4" ng-repeat="image in getProductDetaiImagelList">
           <img width="120px" height="175px" ng-src="{{image.RESOURCE}}"   style="margin-top:10px">
 
@@ -108,18 +119,19 @@
 
         </div>
 
-      <div  ng-hide="hidden2"    class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+      <div  ng-hide="hidden2"    class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.CURRENT_SCORE">
         <div class="col-md-1">
           <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
           {{det.NAME}}
         </div>
         <div   class="col-md-8">
           <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+          {{det.CURRENT_SCORE}}
         </div>
         <div class="col-md-6">{{det.DESCRIPTION}} </div>
       </div>
 
-      <div ng-hide="hidden3" class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
+      <div ng-hide="hidden3" class="row"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.CURRENT_SCORE">
         <div class="col-md-1">
           <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
           {{det.NAME}}
@@ -127,7 +139,7 @@
         <div class="container">
         <div   class="col-md-4">
           <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"> </div>
-
+          {{det.CURRENT_SCORE}}
         </div>
           <div class="col-md-1" ><h1 align="right">LOGO</h1></div>
         </div>

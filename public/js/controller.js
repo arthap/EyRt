@@ -149,34 +149,40 @@ easyrateApp.filter('checkmark', function() {
 	}
 });
 
+
 easyrateApp.controller('easyRateListCtrl',[
-	'$scope','$http', '$location', 'Phone','$cookieStore','UserService',
-	function($scope, $http, $location, Phone,$cookieStore,UserService) {
+	'$scope','$http', '$location', 'Phone','$cookieStore','UserService','UserDataService',
+	function($scope, $http, $location, Phone,$cookieStore,UserService,UserDataService) {
 
 		Phone.query({phoneId: 'phones'}, function (data) {
 			$scope.phones = data;
 		});
 		$scope.searchingText = ""
 		$scope.searching = function(searchingText){
-
+			$scope.errorResult=""
 			UserService.GetProductList($scope.searchingText)
 				.then(function (user) {
-					if (user !== null) {
+					if (user.length>0) {
 						$scope.getProductList = user;
 
 					} else {
-
+						$scope.errorResult="Result Not Found!"
 					}
 				});
 
 		}
+		$scope.userData={};
+		$scope.userData=UserDataService.getUserData();
 
-		// $scope.userData={};
-		//
-		// if($cookieStore.get('globals')===undefined){
+		// if($cookieStore.get('globals').isObject){
 		//     UserModelService.setUser($cookieStore.get('globals').currentUser);
 		//     $scope.userData= $cookieStore.get('globals').currentUser;
-		// $scope.user =$scope.userData.username;}
+		if($scope.userData!==undefined){
+			$scope.userName =$scope.userData[0].USERNAME;
+
+			console.log("baaa"+$scope.userData[0].USERNAME)}
+
+		// }
 		//Phone.query(params, successcb, errorcb)
 
 		//Phone.get(params, successcb, errorcb)
@@ -207,8 +213,8 @@ easyrateApp.controller('ContactCtrl',[
 
 /* Sing in Controller */
 easyrateApp.controller('SingInCtrl',[
-	'$scope','$http', '$location', 'AuthenticationService','FlashService',
-	function($scope, $http, $location, AuthenticationService, FlashService) {
+	'$scope','$http', '$location', 'AuthenticationService','FlashService','UserDataService',
+	function($scope, $http, $location, AuthenticationService, FlashService,UserDataService) {
 		var vm = this;
 
 		vm.login = login;
@@ -216,13 +222,16 @@ easyrateApp.controller('SingInCtrl',[
 		(function initController() {
 			// reset login status
 			AuthenticationService.ClearCredentials();
+			UserDataService.ClearData();
 		})();
+
 
 		function login() {
 			vm.dataLoading = true;
 			AuthenticationService.Login(vm.email, vm.password, function (response) {
 				if (response.success) {
 					AuthenticationService.SetCredentials( vm.password,vm.email);
+
 					$location.path('/userPage');
 				} else {
 					FlashService.Error(response.message);

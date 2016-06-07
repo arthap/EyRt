@@ -69,17 +69,21 @@
           <a href="#/signIn"   class="nav-a nav-a-2" data-nav-ref="nav_ya_signin" data-nav-role="signin" id="nav-link-yourAccount"
              tabindex="60">
 
-            <span class="nav-line-1">Hello. Sign in</span>
-            <!--<span class="nav-line-3">Sign in</span>-->
+            <span ng-show="" class="nav-line-1">Hello. Sign in</span>
+            <span ng-hide="" class="nav-line-1">Sign out</span>
             <!--<span class="nav-line-4">Your Account</span>-->
+
           </a>
 
         </li>
         <li style="margin:10px">
-          <div    style="width: 100px";>
+          <div    style="width: 120px";>
             <div style="width: 35px;height: 40px" class="avatar" >
               <!--<img width="35px" height="40px" src="{{vm.user.AVATAR}}">-->
-            </div>Hi {{user}}!
+
+            </div>
+            Hi {{userName}}!
+            <div class="star-rating" star-rating rating-value="rating=4" data-max="5"></div>
           </div>
            </li>
           <!--<span style="font-size: large;">Содержание сообщения</span>-->
@@ -152,6 +156,7 @@
 <script src="js/app-services/authentication.service.js"></script>
 <script src="js/app-services/flash.service.js"></script>
 <script src="js/app-services/user.service.js"></script>
+<script src="js/app-services/userData.service.js"></script>
 
 <script src="js/components/angular-1.5.3/angular.min.js"></script>
 <script src="js/components/angular-1.5.3/angular-animate.js"></script>

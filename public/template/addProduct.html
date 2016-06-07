@@ -1,7 +1,7 @@
 <div class="col-md-12" align="center">
 
 
-        <form name="vm.upload_form" class="form-horizontal">
+        <form name="form" class="form-horizontal">
 
             <div class="form-group">
                 <label class="control-label col-sm-2">Image:</label>
@@ -15,6 +15,7 @@
                                 ngf-pattern="'image/*'"
                                 accept="image/*"
                                 ngf-max-size="5MB"
+                               required
                         />
                         <!--<input   style="height: auto" class="form-control"-->
                                  <!--type="file"-->
@@ -36,8 +37,9 @@
                         <label class="control-label col-sm-2">Name:</label>
                         <div class="col-sm-4">
                             <input id="nameSave"  maxlength=16 type="text"
-                                   name="myName" class="form-control" ng-model="vm.name" value="" placeholder="Name">
-                            <span style="color: red;" id="nameError"> </span> </span>
+                                   name="name" class="form-control" ng-model="vm.name" value="" placeholder="Name">
+                            <span style="color: red;" id="nameError" required> </span> </span>
+                            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,9 +47,9 @@
                         <div class="col-sm-4">
                             <input value="" id="brandSave" maxlength=22 type="text"
                                    name="brand" class="form-control" ng-model="vm.brand"
-                                   placeholder="Brand"> <span
+                                   placeholder="Brand" required> <span
                                 style="color: red;" id="brandError"> </span>
-
+                            <span ng-show="form.brand.$dirty && form.brand.$error.required" class="help-block">Brand is required</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -55,18 +57,18 @@
                         <div class="col-sm-4">
 						 <textarea id="shortText" maxlength="48"  class="form-control" name="shortText"
                                           ng-model="vm.shortText"
-                                          placeholder="Short_Text" value=""></textarea>
+                                          placeholder="Short_Text" value="" required></textarea>
                             <span style="color: red;" id="shortTextError"> </span>
-
+                            <span ng-show="form.shortText.$dirty && form.shortText.$error.required" class="help-block">Short Text is required</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">Status:</label>
                         <div class="col-sm-4">
                             <input id="status" maxlength=4 type="text" name="status"
-                                   class="form-control" ng-model="vm.status" value=" "	placeholder="Status">
+                                   class="form-control" ng-model="vm.status" value=" "	placeholder="Status" required>
                             <span id="statusError"    style="color: red;"> </span>
-
+                            <span ng-show="form.status.$dirty && form.status.$error.required" class="help-block">Status is required</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,18 +76,18 @@
                         <div class="col-sm-4">
 
 								<textarea id="descriptionSave" maxlength=44 type="text" value=""
-                                          name="Description" class="form-control"
-                                          ng-model="vm.description" placeholder="description"></textarea>
+                                          name="description" class="form-control"
+                                          ng-model="vm.description" placeholder="description" required></textarea>
                             <span style="color: red" id="descriptionError"> </span>
-
+                            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
                         </div>
                     </div>
-                    <input type="hidden" name="id" id="id" class="form-control" value=""ng-model="vm.id" required />
+                    <input type="hidden" name="id" id="id" class="form-control" value=""ng-model="vm.id"  />
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <br /> <br />
                             <!--<input id="btnSave" class="btn btn-primary" name="submit" type="submit" value="Save">-->
-                            <button class="btn btn-primary" type="submit" ng-click="vm.submit()">submit</button>
+                            <button class="btn btn-primary" type="submit" ng-click="vm.submit()"  ng-disabled="form.$invalid">submit</button>
                             <p>{{vm.progress}}</p>
                         </div>
                     </div>
