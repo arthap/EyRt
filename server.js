@@ -82,7 +82,7 @@ app.post('/getProductList/:searchingText', function (req, res) {
   }
   console.log(sqlLike);
   var key =  req.params.searchingText;
-  var queryString= "select * from ey_product left join ey_product_resource on ey_product_resource.PRODUCT_ID = ey_product.ID where ("+sqlLike+ ") AND ey_product_resource.`ORDER`=1 LIMIT 10";
+  var queryString= "select * from ey_product left join ey_product_resource on ey_product_resource.PRODUCT_ID = ey_product.ID where ("+sqlLike+ ") AND ey_product_resource.`ORDER`=1 LIMIT 20";
   // var queryString = 'SELECT * FROM ey_product WHERE   NAME OR SHORT_TEXT OR DESCRIPTION = ? LIMIT 2';
   console.log(queryString);
   connection.query(queryString,  function(err, product) {
@@ -207,6 +207,7 @@ app.post('/api/photo',function(req,res){
       if (err) throw err;
       else {
         console.log('Increased the salary for Joe.');
+        
         // var succes = true;
 
       }
@@ -218,7 +219,7 @@ app.post('/api/photo',function(req,res){
 var fileName;
 var storage = multer.diskStorage({ //multers disk storage settings
   destination: function (req,  file,cb) {
-    cb(null, './uploads/')
+    cb(null, './public/img/uploads')
   },
   filename: function (req,  file,cb) {
     fileName=file.fieldname + '-' + Date.now()+file.originalname.substring(file.originalname.lastIndexOf("."))
@@ -286,16 +287,17 @@ app.post('/upload', function(req, res ) {
 app.post('/PostProductReviewById/',function(req,res){
   var a={};
   a=req.body;
-  var productId=req.body.id;
-  var review=a.review;
-  var userId=a.userId;
-  var like=a.like;
-  var disLike=a.disLike;
-  var curRate=a.curRate;
-  var valuess = [productId,'capch',review,curRate,like,disLike,curRate,userId,'1',new Date(),new Date()];
-  connection.query('PRODUCT_ID, REVIEW_CAPTION, REVIEW_TEXT, LIKES_CNT, DISLIKE_CNT, CURRENT_RATE, CREATOR_USER_ID, STATUS, CREATED_AT, UPDATED_AT) VALUES(?,?,?,?,?,?,?,?,?,?)', values, function(err, result) {
+  var productId=req.body.productId;
+  var review=req.body.review;
+  var userId=req.body.userId;
+  var like=req.body.like;
+  var disLike=req.body.disLike;
+  var curRate=req.body.curRate;
+  var status=req.body.status;
+  var values = [productId,'capch',review,like,disLike,curRate,userId,status,new Date(),new Date()];
+  connection.query('INSERT INTO ey_review (PRODUCT_ID, REVIEW_CAPTION, REVIEW_TEXT, LIKES_CNT, DISLIKE_CNT, CURRENT_RATE, CREATOR_USER_ID, STATUS, CREATED_AT, UPDATED_AT) VALUES(?,?,?,?,?,?,?,?,?,?)', values, function(err, result) {
 
-    if (err) throw err;
+    if (err) {throw err;console.log(err)}
     else {
       return  res.json({error_code:0,err_desc:null});
       console.log('Increased the salary for Joe.');

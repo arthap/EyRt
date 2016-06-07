@@ -14,7 +14,7 @@
                                 name="file"
                                 ngf-pattern="'image/*'"
                                 accept="image/*"
-                                ngf-max-size="20MB"
+                                ngf-max-size="5MB"
                         />
                         <!--<input   style="height: auto" class="form-control"-->
                                  <!--type="file"-->
@@ -26,7 +26,7 @@
                                  <!--ngf-max-size="20MB" />-->
 
                         <span	id="imgError" style="color: red;"> </span> <br />  <br />
-                        <img width="150px"height="200px" ngf-src="vm.file" class="thumb">
+                        <img height="200px" width="150px" ngf-src="vm.file" class="thumb">
                     </div>
                 </div>
             </div>
@@ -43,8 +43,8 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">Brand:</label>
                         <div class="col-sm-4">
-                            <input value="vm.brand" id="brandSave" maxlength=22 type="text"
-                                   name="brand" class="form-control" ng-model="vm.brand" value=""
+                            <input value="" id="brandSave" maxlength=22 type="text"
+                                   name="brand" class="form-control" ng-model="vm.brand"
                                    placeholder="Brand"> <span
                                 style="color: red;" id="brandError"> </span>
 

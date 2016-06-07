@@ -4,7 +4,7 @@
 'use strict';
 
 /* Controllers */
-var easyrateApp = angular.module('easyrateApp', ['ngRoute', 'ngResource','ngCookies']);
+var easyrateApp = angular.module('easyrateApp', ['ngRoute', 'ngResource','ngCookies','ngFileUpload']);
 
 /* Config */
 easyrateApp.config([
@@ -44,6 +44,11 @@ easyrateApp.config([
 				controller:'UserPageCtrl',
 				controllerAs: 'vm'
 			})
+			.when('/addProduct',{
+				templateUrl:'template/addProduct.html',
+				controller:'addProductCtrl',
+				controllerAs: 'vm'
+			})
 			.when('/reset/:tokenId', {
 				templateUrl:'template/reset.html',
 				controller:'ResetCtrl',
@@ -70,7 +75,7 @@ function run($rootScope, $location, $cookieStore, $http) {
 
 	$rootScope.$on('$locationChangeStart', function (event, next, current) {
 		// redirect to login page if not logged in and trying to access a restricted page
-		var restrictedPage = $.inArray($location.path(), ['/signIn', '/register','/forgot','/reset/:tokenId','/','/userPage','/phones/:phoneId]']) === -1;
+		var restrictedPage = $.inArray($location.path(), ['/signIn', '/register','/forgot','/reset/:tokenId','/','/userPage','/addProduct','/phones/:phoneId]']) === -1;
 		var loggedIn = $rootScope.globals.currentUser;
 		if (restrictedPage && !loggedIn) {
 			$location.path('/');
@@ -218,7 +223,7 @@ easyrateApp.controller('SingInCtrl',[
 			AuthenticationService.Login(vm.email, vm.password, function (response) {
 				if (response.success) {
 					AuthenticationService.SetCredentials( vm.password,vm.email);
-					$location.path('/');
+					$location.path('/userPage');
 				} else {
 					FlashService.Error(response.message);
 					vm.dataLoading = false;
@@ -335,8 +340,8 @@ easyrateApp.controller('ResetCtrl',[
 ]);
 /* User Page in Controller */
 easyrateApp.controller('UserPageCtrl',[
-	'$scope','$rootScope', '$cookieStore','$http', '$location', 'AuthenticationService','FlashService','UserService',
-	function($scope,$rootScope,$cookieStore, $http, $location, AuthenticationService, FlashService,UserService) {
+	'$scope','$rootScope', '$cookieStore','$http', '$location', 'AuthenticationService','FlashService','UserService','Upload',
+	function($scope,$rootScope,$cookieStore, $http, $location, AuthenticationService, FlashService,UserService,Upload) {
 		var vm = this;
 		vm.userdata = $cookieStore.get('globals').currentUser;
 		vm.user=vm.userdata.username
@@ -345,7 +350,20 @@ easyrateApp.controller('UserPageCtrl',[
 		console.log(vm.user);
 		vm.login = login;
 
-
+		vm.submit = function () {
+			Upload.upload({
+				url: '/api/photo',
+				data: {id: vm.userData.ID,file: vm.file }
+			}).then(function (resp) {
+				console.log('Success ' + resp );
+				login();
+			}, function (resp) {
+				console.log('Error status: ' + resp );
+			}, function (evt) {
+				vm.progress = parseInt(100.0 * evt.loaded / evt.total+'%');
+				// console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+			});
+		};
 
 		function login() {
 			UserService.GetByUserEmail(vm.userdata.email)
@@ -359,6 +377,32 @@ easyrateApp.controller('UserPageCtrl',[
 
 				});
 		};
+	}
+]);
+easyrateApp.controller('addProductCtrl',[
+	'$scope','$rootScope', '$cookieStore','$http', '$location', 'AuthenticationService','FlashService','UserService','Upload',
+	function($scope,$rootScope,$cookieStore, $http, $location, AuthenticationService, FlashService,UserService,Upload) {
+        var vm=this;
+		vm.userdata = $cookieStore.get('globals').currentUser;
+		vm.userId=vm.userdata.id
+
+
+		vm.submit = function () {
+			Upload.upload({
+				url: '/upload',
+				data: {id: vm.id,userIdn:vm.userIdn,ame:vm.name,shortText:vm.shortText,description:vm.description,status:vm.status,file: vm.file }
+			}).then(function (resp) {
+				console.log('Success ' + resp );
+				login();
+			}, function (resp) {
+				console.log('Error status: ' + resp );
+			}, function (evt) {
+				vm.progress = parseInt(100.0 * evt.loaded / evt.total+'%');
+				// console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+			});
+		};
+
+
 	}
 ]);
 /* Phone Detail Controller */
@@ -386,13 +430,16 @@ easyrateApp.controller('PhoneDetailCtrl',[
 		$scope.hidden1 =true;
 		$scope.hidden2 =true;
 		$scope.hidden3 =true;
-
+		vm.productId=$routeParams.productId;
+		vm.review='';
 
       
 		UserService.GetProductDetailById($routeParams.productId)
 			.then(function (productDetailById) {
 				if (productDetailById.length >0) {
 					$scope.getProductDetailList = productDetailById;
+					vm.userId=productDetailById[0].CREATER_USER_ID;
+vm.status=productDetailById[0].STATUS;
 
 				} else {
 
@@ -410,7 +457,8 @@ easyrateApp.controller('PhoneDetailCtrl',[
 
 
 	
-
+vm.like=1;
+		vm.disLike=1;
 
 
 		function reviewDiscription() {

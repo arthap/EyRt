@@ -72,7 +72,7 @@
 
                     method: 'POST',
                     url: '/PostProductReviewById/',
-                    data:'reviw=' + addReview.review+'&userId='+addReview.userId+'&productId='+addReview.productId+'&like='+addReview.like+'&disLike='+addReview.disLike+'&curRate='+addReview.curRate,
+                    data:'review=' + addReview.review+'&userId='+addReview.userId+'&productId='+addReview.productId+'&like='+addReview.like+'&disLike='+addReview.disLike+'&curRate='+addReview.rating+'&status='+addReview.status,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function(respond){
                     deferred.resolve({ success: true });

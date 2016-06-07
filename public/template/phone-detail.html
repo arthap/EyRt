@@ -15,7 +15,8 @@
   </div>
 
   <div class="col-xs-12 col-sm-8">
-    <div  ng-repeat="det in getProductDetailList"  ng-init="vm.rating = det.STATUS" >
+    <div  ng-repeat="det in getProductDetailList"  ng-init="vm.rating = det.CURRENT_SCORE
+" >
       <h1>{{det.NAME}}</h1>
       <p>{{det.DESCRIPTION}}</p>
 
@@ -25,11 +26,22 @@
       <div  class="star-rating" star-rating rating-value="vm.rating" data-max="5" on-rating-selected="rateFunction(vm.rating)"></div>
       <br>
 
-        <a ng-click="addReviewHide=true"style="margin-left: 40px"   role="button">Write Review</a>
+        <a ng-click="addReviewHide=true; vm.review='';"style="margin-left: 40px"   role="button">Write Review</a>
       <!--<a  style="margin-left: 10px"class="btn btn-default" href="#/phones/{{product.PRODUCT_ID}}" role="button">Folow/Unfolow</a>-->
 
         <a  class="buttonFollow" ng-class="{'activeFollow': isActive}" ng-click=" isActive = !isActive" type="button">Folow/Unfolow</a>
-
+      <!--<button ng-class="{'activeFollow': isActive}" ng-hide="isActive"href="#" ng-click=" isActive = !isActive" type="button"  >-->
+        <!--<span class="glyphicon glyphicon-thumbs-up"></span> Like-->
+      <!--</button>-->
+      <!--<button ng-class="{'activeFollow': isActive}" href="#" ng-show="isActive" ng-click=" isActive = !isActive" type="button" >-->
+        <!--<span class="glyphicon glyphicon-thumbs-down"></span> Like-->
+      <!--</button>-->
+      <!--<a ng-show="isActive"href="#" ng-click=" isActive = !isActive">-->
+        <!--<span class="glyphicon glyphicon-thumbs-up"></span>-->
+      <!--</a>-->
+      <!--<a ng-hide="isActive"href="#" ng-click=" isActive = !isActive">-->
+        <!--<span class="glyphicon glyphicon-thumbs-down"></span>-->
+      <!--</a>-->
     </div>
 <!--addReview-->
     <div  ng-hide="!addReviewHide">
@@ -53,7 +65,7 @@
     </div>
     <!--endadd review-->
     <!--tabs-->
-    <div ng-hide="addReviewHide" style="padding: 30px" class="container">
+    <div ng-hide="addReviewHide" style="padding: 30px;width: 1000px" class="container" >
       <ul class="nav nav-tabs" role="tablist">
         <li ng-class="active"  ng-click="active='active';active2='';active3='';;active1=''"><a ng-click="hidden=false;hidden2=true;hidden3=true;hidden1=true"    role="tab" data-toggle="tab">Review</a></li>
         <li ng-class="active1" ng-click="active1='active';active2='';active3='';active=''"><a ng-click="hidden1=false;hidden=true;hidden2=true;hidden3=true"  role="tab" data-toggle="tab">User Pics</a></li>
@@ -65,15 +77,32 @@
         <img  width="50px" height="75px" ng-src="{{mainImageUrl}}">
         {{det.NAME}}
       </div>
-      <div   class="col-md-8">
-        <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"></div>
+      <div   class="col-md-4">
+        <div  class="star-rating" star-rating rating-value="rating" data-max="5" on-rating-selected="rateFunction(rating)"> </div>
+
       </div>
-      <div class="col-md-6">{{det.DESCRIPTION}} </div>
+        <div class="col-md-2">
+          <a ng-show="isActive"href="" ng-click=" isActive = !isActive">
+            <span class="glyphicon glyphicon-thumbs-up"> like</span>
+          </a>
+          <a ng-hide="isActive"href="" ng-click=" isActive = !isActive">
+            <span class="glyphicon glyphicon-thumbs-down"> disLike</span>
+          </a>
+          <!--<button align="right" ng-class="{'activeFollow': isActive}" ng-hide="isActive"href="#" ng-click=" isActive = !isActive" type="button"  >-->
+            <!--<span class="glyphicon glyphicon-thumbs-up"></span> Like-->
+          <!--</button>-->
+          <!--<button align="right" ng-class="{'activeFollow': isActive}" href="#" ng-show="isActive" ng-click=" isActive = !isActive" type="button" >-->
+            <!--<span class="glyphicon glyphicon-thumbs-down"></span> Like-->
+          <!--</button>-->
+        </div>
+        <br>
+
+      <div class="col-md-8">{{det.DESCRIPTION}} </div>
     </div>
 
       <div ng-hide="hidden1" class="row col-md-8"  ng-repeat="det in getProductDetailList"  ng-init="rating = det.STATUS">
         <div class="col-xs-6 col-md-4" ng-repeat="image in getProductDetaiImagelList">
-          <img width="200px" height="200px" ng-src="{{image.RESOURCE}}"  >
+          <img width="120px" height="175px" ng-src="{{image.RESOURCE}}"   style="margin-top:10px">
 
         </div>
 
