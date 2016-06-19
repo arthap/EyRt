@@ -42,7 +42,17 @@ var connection = mysql.createConnection({
   password : 'root',
   database : 'easyTest'
 });
+var pool  = mysql.createPool({
+  // connectionLimit : 10,
+  host     : 'localhost',
+  user     : 'root',
+  password : 'root',
+  database : 'easyTest'
+});
 
+// pool.getConnection(function(err, connection) {
+//   // connected! (unless `err` is set)
+// });
 //connection.connect();
 //connection.query('SELECT * from labels', function(err, rows, fields) {
 //  if (!err)
@@ -125,7 +135,30 @@ app.post('/GetProductDetailById/:id', function(req, res, next) {
 
 });
 
+app.post('/GetProductReviewtById/:id', function(req, res, next) {
 
+
+
+  var key = req.params.id;
+  var queryString = 'SELECT * FROM ey_review  WHERE  PRODUCT_ID = ?';
+  // var queryString= "select * from ey_review left join ey_review_resource on ey_review_resource.REVIEW_ID = ey_review.ID where  ey_review.PRODUCT_ID=? ";
+  var queryString= "select ey_review.ID,ey_review.REVIEW_TEXT,ey_review.LIKES_CNT,ey_review.DISLIKE_CNT,ey_review.CREATOR_USER_ID ,ey_review.CURRENT_RATE,ey_review.PRODUCT_ID,ey_review.REVIEW_CAPTION,ey_users.AVATAR from ey_review right join ey_users on ey_users.ID = ey_review.CREATOR_USER_ID where  ey_review.PRODUCT_ID=? ";
+
+  connection.query(queryString,[key],  function(err, productReviewDetail) {
+    if (!err){
+      console.log('The productReviewDetail is: ', productReviewDetail);
+      res.json(productReviewDetail);
+    }
+
+
+    else
+      console.log('Error while performing Query.');
+    //connection.release();
+    //connection.end();
+
+  });
+
+});
 app.post('/GetProductDetailImageById/:id', function(req, res, next) {
 
   var key = req.params.id;
@@ -141,23 +174,53 @@ app.post('/GetProductDetailImageById/:id', function(req, res, next) {
       console.log('Error while performing Query.');
   });
 });
-app.post('/contactlist', function (req, res) {
-// connection.connect();
 
-  connection.query('INSERT INTO labels (articleNumber,name,size,indicator,color,brand,pricegroup,material,description,image,date,longDescription,kategorie,warehouse ) VALUES(214233320,"hapikt","34","1","red","chanel","A","cotton","fdkhgasldg.NSGV.","/A/A/A/A.PNG","2016","H","londone","aaaaa")', function(err, rows, fields) {
-    if (!err)
-      console.log('The solution is: ', rows);
-    else
-      console.log('Error while performing Query.');
+app.post('/AddFollowProduct', function(req, res, next) {
+var userId=req.body.userId;
+  var productId=req.body.productId;
+  var categoryId=req.body.categoryId;
+
+ 
+  //Update a record.
+ 
+  connection.query('INSERT INTO ey_user_followup (USER_ID, PRODUCT_ID, CATEGORY_ID) VALUES(?,?,?)', [userId,productId,categoryId], function (err, res) {
+    if (err) {throw err;console.log(err)}
+    else {
+      return  res.json({sucsess:true});
+      console.log('Increased the salary for Joe.');
+      // var succes = true;
+    }
   });
 
-  console.log(req.body);
-  //connection.end();
-  //db.contactlist.insert(req.body, function(err, doc) {
-  //  res.json(doc);
-  //});
 });
+app.post('/AddLike/:id', function(req, res, next) {
+  var key=req.params.id;
+  var updateRecord = 'UPDATE ey_review SET LIKES_CNT = `LIKES_CNT` + 1  WHERE ID=?';
+  connection.query(updateRecord, [key], function (err, result) {
+    if (err) throw err;
+    else {
+      return  res.json({sucsess:true});
+      console.log('Increased the salary for Joe.');
 
+      // var succes = true;
+
+    }
+  });
+});
+app.post('/AddDisLike/:id', function(req, res, next) {
+  var key=req.params.id;
+  var updateRecord = 'UPDATE ey_review SET DISLIKE_CNT = DISLIKE_CNT-1  WHERE ID=?';
+  connection.query(updateRecord, [key ], function (err, result) {
+    if (err) throw err;
+    else {
+      return  res.json({sucsess:true});
+      console.log('Increased the salary for Joe.');
+
+      // var succes = true;
+
+    }
+  });
+});
 
 // app.post('/fileUpload', function (req, res) {
 //
@@ -179,6 +242,68 @@ app.post('/contactlist', function (req, res) {
 //     //  res.json(doc);
 //     //});
 // });
+var  extention=[];
+var fileN3=[];
+var storage3 =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './public/img/review');
+  },
+  filename: function (req, file, callback) {
+    fileName3=file.fieldname + '-' + Date.now()+file.originalname;
+    fileN3.push(fileName3);
+    extention.push(file.originalname.substring(file.originalname.lastIndexOf(".")+1));
+    callback(null,fileName3 );
+  }
+});
+var upload3 = multer({ storage : storage3 }).array('reviewPhoto',3);
+
+
+// app.get('/',function(req,res){
+//     res.sendFile(__dirname + "/index.html");
+// });
+
+app.post('/api/photo3',function(req,res){
+  fileN3=[];
+  extention=[];
+  upload3(req,res,function(err) {
+    if (!err) {
+      var reviewId = req.body.id;
+      var j=0;
+      for (var i = 0; i < fileN3.length; i++) {
+        var resouce = fileN3[i];
+        var values = [reviewId, resouce, extention[i], new Date(), new Date()];
+        // vals.push([reviewId,  fileN3[i], 'jpg', new Date(), new Date()]);
+        // pool.getConnection(function(err, connection) {
+          // Use the connection
+
+          connection.query('INSERT INTO ey_review_resource (REVIEW_ID, RESOURCE, RESOURCE_TYPE,CREATED_AT,UPDATED_AT) VALUES(?,?,?,?,?)', values, function (err, result) {
+
+            if (!err) {
+              j=j+1;
+              console.log('The solution is: ', req.body);
+              // connection.release();
+              if(i===fileN3.length && j===fileN3.length){
+                // res.json({error_code: 1, err_desc: err});
+                res.redirect('/#/phones/' + reviewId);}
+                }
+
+                else {
+                 console.log('Error while performing Query. add error');  }
+
+          });
+
+         }
+    }
+    else {
+      console.log('Error while performing Query. add error');
+      // res.json({error_code: 1, err_desc: err});
+    }
+
+  });
+
+});
+
+
 var fileName;
 var storage2 =   multer.diskStorage({
   destination: function (req, file, callback) {
@@ -252,17 +377,11 @@ app.post('/upload', function(req, res ) {
 
       if (!err) {
 
-
-
-        connection.query('INSERT INTO ey_product_resource (PRODUCT_ID, RESOURCE, `ORDER`, RESOURCE_TYPE ,CREATED_AT,UPDATED_AT) VALUES(?,?,?,?,?,?)', valuess, function(err, result) {
-
+      connection.query('INSERT INTO ey_product_resource (PRODUCT_ID, RESOURCE, `ORDER`, RESOURCE_TYPE ,CREATED_AT,UPDATED_AT) VALUES(?,?,?,?,?,?)', valuess, function(err, result) {
 
           if (!err) {
             console.log('The solution is: ', req.body);
             return  res.json({error_code:0,err_desc:null});
-
-
-
           }
           else
             console.log('Error while performing Query. add error');
@@ -285,8 +404,7 @@ app.post('/upload', function(req, res ) {
 });
 
 app.post('/PostProductReviewById/',function(req,res){
-  var a={};
-  a=req.body;
+
   var productId=req.body.productId;
   var review=req.body.review;
   var userId=req.body.userId;
@@ -701,34 +819,3 @@ app.listen(3001);
 console.log("Server running on port 3001");
 
 
-//// a GET request = a database READ or (a.k.a SELECT)
-//app.get('/path', function(req, res) {
-//    connection.query('SELECT * FROM ' + req.params.table + ' ORDER BY id DESC LIMIT 20', req.params.id, function(err, rows, fields) {
-//        res.json('.. assume you translated your database response a javascript object .. ')
-//        connection.release();
-//    });
-//});
-//
-//// a POST request = a database CREATE (a.k.a INSERT)
-//app.post('/path', function(req, res) {
-//    connection.query('INSERT INTO ' + req.params.table + ' SOME OTHER PARTS OF YOUR SQL QUERY', req.params.id, function(err, rows, fields) {
-//        res.json('.. assume you translated your database response a javascript object again .. ')
-//        connection.release();
-//    });
-//});
-//
-//// a PUT request = a database UPDATE
-//app.put('/path', function(req, res) {
-//    connection.query('UPDATE ' + req.params.id + ' SOME OTHER PARTS OF YOUR SQL QUERY', req.params.id, function(err, rows, fields) {
-//        res.json('.. assume you translated your database response a javascript object yet again .. ')
-//        connection.release();
-//    });
-//});
-//
-//// a DELETE request = a database DELETE
-//app.delete('/path', function(req, res) {
-//    connection.query('DELETE FROM ' + req.params.table + ' SOME OTHER PARTS OF YOUR SQL QUERY', req.params.id, function(err, rows, fields) {
-//        res.json('.. assume you translated your database response a javascript object once again .. ')
-//        connection.release();
-//    });
-//});

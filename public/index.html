@@ -9,27 +9,185 @@
   <link rel="stylesheet" href="css/follow.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" type="text/css" href="styles.css"/>
+<!--<style>-->
+  <!--#nav-search .nav-search-dropdown {-->
+    <!--position: absolute;-->
+    <!--display: block;-->
+    <!--top: -1px;-->
+    <!--left: 0;-->
+    <!--height: 35px;-->
+    <!--width: auto;-->
+    <!--font-family: arial,sans-serif;-->
+    <!--outline: 0;-->
+    <!--margin: 0;-->
+    <!--padding: 0;-->
+    <!--cursor: pointer;-->
+    <!--opacity: 0;-->
+    <!--filter: alpha(opacity=0);-->
+    <!--visibility: visible;-->
+    <!--border: 0;-->
+    <!--line-height: 35px;-->
+  <!--}-->
+  <!--#navbar * {-->
+    <!--box-sizing: border-box;-->
+    <!-- -moz-box-sizing: border-box;-->
+    <!-- -webkit-box-sizing: border-box;-->
+  <!--}-->
+  <!--input, select, textarea {-->
+    <!-- -webkit-transition: all 100ms linear;-->
+    <!--transition: all 100ms linear;-->
+    <!--font-family: Arial,sans-serif;-->
+    <!--line-height: 19px;-->
+    <!--color: #111;-->
+  <!--}-->
+  <!--button, input, select, textarea {-->
+    <!--margin: 0;-->
+    <!--font-size: 100%;-->
+    <!--vertical-align: middle;-->
+  <!--}-->
+  <!--* {-->
+    <!-- -moz-box-sizing: border-box;-->
+    <!-- -webkit-box-sizing: border-box;-->
+    <!--box-sizing: border-box;-->
+  <!--}-->
+  <!---->
+  <!--keygen, select, select[size="0"], select[size="1"] {-->
+    <!--border-radius: 0px;-->
+    <!--border-color: rgb(169, 169, 169);-->
+  <!--}-->
 
+  <!--select:not(:-internal-list-box) {-->
+    <!--overflow: visible !important;-->
+  <!--}-->
+
+  <!--select {-->
+    <!-- -webkit-appearance: menulist;-->
+    <!--box-sizing: border-box;-->
+    <!--align-items: center;-->
+    <!--border-image-source: initial;-->
+    <!--border-image-slice: initial;-->
+    <!--border-image-width: initial;-->
+    <!--border-image-outset: initial;-->
+    <!--border-image-repeat: initial;-->
+    <!--white-space: pre;-->
+    <!-- -webkit-rtl-ordering: logical;-->
+    <!--color: black;-->
+    <!--background-color: white;-->
+    <!--cursor: default;-->
+    <!--border-width: 1px;-->
+    <!--border-style: solid;-->
+    <!--border-color: initial;-->
+  <!--}-->
+
+  <!--keygen, select {-->
+    <!--border-radius: 5px;-->
+  <!--}-->
+
+  <!--input, textarea, keygen, select, button {-->
+    <!--text-rendering: auto;-->
+    <!--color: initial;-->
+    <!--letter-spacing: normal;-->
+    <!--word-spacing: normal;-->
+    <!--text-transform: none;-->
+    <!--text-indent: 0px;-->
+    <!--text-shadow: none;-->
+    <!--display: inline-block;-->
+    <!--text-align: start;-->
+    <!--margin: 0em 0em 0em 0em;-->
+    <!--font: 12px Arial;-->
+  <!--}-->
+
+  <!--input, textarea, keygen, select, button, meter, progress {-->
+    <!-- -webkit-writing-mode: horizontal-tb;-->
+  <!--}-->
+<!--</style>-->
 </head>
 <body ng-controller="easyRateListCtrl">
 <nav class="navbar navbar-fixed-top navbar-inverse">
 
   <!-- search form 1 -->
+  <!--<div  class="container">-->
+    <!--<div class=" col-md-1"  >-->
+      <!--&lt;!&ndash;<li id="navbar" class="collapse navbar-collapse">&ndash;&gt;-->
 
+      <!--<ul class="nav navbar-nav">-->
+        <!--<li class="active"><a href="#/">Home</a></li>-->
+        <!--&lt;!&ndash;<li><a href="#/about">About</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><a href="#/contact">Contact</a></li>&ndash;&gt;-->
+
+
+      <!--</ul>-->
+      <!--&lt;!&ndash;<fb:login-button autologoutlink='true'  perms='email,user_birthday,status_update,publish_stream'></fb:login-button>&ndash;&gt;-->
+      <!--&lt;!&ndash;<li>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div   class="col-md-7">-->
+
+      <!--&lt;!&ndash;<div class="container">&ndash;&gt;-->
+
+      <!--<div id="search">-->
+
+        <!--<form >-->
+
+          <!--<fieldset  >-->
+
+            <!--<input   ng-model="searchingText;" type="search" name="search" value="What are you looking for?" onBlur="if(this.value=='')this.value='What are you looking for?'" onFocus="if(this.value=='What are you looking for?')this.value='' "> &lt;!&ndash; JS because of IE support; better: placeholder="What are you looking for?" &ndash;&gt;-->
+            <!--<input   type="submit" ng-click="searching(searchingText)" value="Search" class="button">-->
+
+          <!--</fieldset>-->
+
+        <!--</form>-->
+
+      <!--</div> &lt;!&ndash; end search &ndash;&gt;-->
+
+      <!--&lt;!&ndash;</div> &lt;!&ndash; end container &ndash;&gt;&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<li> <a id="fb-account" class="large button blue">login with Facebook</a></li>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="avatar"></div>&ndash;&gt;-->
+
+    <!--<div   class=" col-md-1" id="nav-tools" >-->
+      <!--<a href="#/signIn"   class="nav-a nav-a-2" data-nav-ref="nav_ya_signin" data-nav-role="signin" id="nav-link-yourAccount"  tabindex="60">-->
+
+        <!--<span ng-hide="userName" class="nav-line-1">Hello. Sign in</span>-->
+        <!--<span ng-show="userName" class="nav-line-1">Sign out</span>-->
+        <!--&lt;!&ndash;<span class="nav-line-4">Your Account</span>&ndash;&gt;-->
+
+      <!--</a>-->
+
+
+
+
+
+      <!--&lt;!&ndash;<span style="font-size: large;">Содержание сообщения</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;<input id="status" size="60" type="text" value="Демонстрационное приложение для сайта RUSELLER.COM" />&ndash;&gt;-->
+      <!--&lt;!&ndash;<br/><a href='#' onclick='setStatus(); return false;'>Разместить в ленте новостей Facebook!</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<p align="center"><fb:like-box profile_id="145726158803248" stream="false" header="false"></fb:like-box></p>&ndash;&gt;</li>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="col-md-1"  >-->
+      <!--<div    class="avatar " >-->
+        <!--<a   href="#/userPage" ng-show="userName"><img width="35px" height="40px" src="{{userData[0].AVATAR}}"></a>-->
+
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div  class="col-md-2">-->
+      <!--<a  href="#/userPage" ng-show="userName">Hi,{{userName}}!</a>-->
+      <!--<div class=" star-rating" star-rating rating-value="rating=userData[0].CURRENT_RATE" data-max="5"></div>-->
+    <!--</div>-->
+  <!--</div>-->
   <div class="container">
-    <div class="navbar-header">
+    <div class="navbar-header" class="col-xs-12 col-sm-12 col-md-12">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/">Easy Rate</a>
+      <a  class="navbar-brand" href="#/">Easy Rate</a>
     </div>
-    <li id="navbar" class="collapse navbar-collapse">
+    <br><br><br>
 
-
-
+    <div  >
+    <!--<li id="navbar" class="collapse navbar-collapse">-->
 
       <ul class="nav navbar-nav">
         <li class="active"><a href="#/">Home</a></li>
@@ -39,19 +197,67 @@
 
 
         <!--<fb:login-button autologoutlink='true'  perms='email,user_birthday,status_update,publish_stream'></fb:login-button>-->
-       <li>
-         <div align="right">
+       <!--<li>-->
+
+         <li >
 
           <!--<div class="container">-->
 
             <div id="search">
 
-              <form action="javascript:void(0);" method="GET">
+              <form >
 
-                <fieldset class="clearfix">
 
-                  <input ng-model="searchingText;" type="search" name="search" value="What are you looking for?" onBlur="if(this.value=='')this.value='What are you looking for?'" onFocus="if(this.value=='What are you looking for?')this.value='' "> <!-- JS because of IE support; better: placeholder="What are you looking for?" -->
-                  <input type="submit" ng-click="searching(searchingText)" value="Search" class="button">
+                <select   >
+                  <option selected="selected" value="search-alias=aps">All  </option>
+                  <option value="search-alias=instant-video">Amazon Video</option>
+                  <option value="search-alias=appliances">Appliances</option>
+                  <option value="search-alias=mobile-apps">Apps &amp; Games</option>
+                  <option value="search-alias=arts-crafts">Arts, Crafts &amp; Sewing</option>
+                  <option value="search-alias=automotive">Automotive</option>
+                  <option value="search-alias=baby-products">Baby</option>
+                  <option value="search-alias=beauty">Beauty &amp; Personal Care</option>
+                  <option value="search-alias=stripbooks">Books</option>
+                  <option value="search-alias=popular">CDs &amp; Vinyl</option>
+                  <option value="search-alias=mobile">Cell Phones &amp; Accessories</option>
+                  <option value="search-alias=fashion">Clothing, Shoes &amp; Jewelry</option>
+                  <option value="search-alias=fashion-womens">&nbsp;&nbsp;&nbsp;Women</option>
+                  <option value="search-alias=fashion-mens">&nbsp;&nbsp;&nbsp;Men</option>
+                  <option value="search-alias=fashion-girls">&nbsp;&nbsp;&nbsp;Girls</option>
+                  <option value="search-alias=fashion-boys">&nbsp;&nbsp;&nbsp;Boys</option>
+                  <option value="search-alias=fashion-baby">&nbsp;&nbsp;&nbsp;Baby</option>
+                  <option value="search-alias=collectibles">Collectibles &amp; Fine Art</option>
+                  <option value="search-alias=computers">Computers</option>
+                  <option value="search-alias=financial">Credit and Payment Cards</option>
+                  <option value="search-alias=digital-music">Digital Music</option>
+                  <option value="search-alias=electronics">Electronics</option>
+                  <option value="search-alias=gift-cards">Gift Cards</option>
+                  <option value="search-alias=grocery">Grocery &amp; Gourmet Food</option>
+                  <option value="search-alias=handmade">Handmade</option>
+                  <option value="search-alias=hpc">Health, Household &amp; Baby Care</option>
+                  <option value="search-alias=local-services">Home &amp; Business Services</option>
+                  <option value="search-alias=garden">Home &amp; Kitchen</option>
+                  <option value="search-alias=industrial">Industrial &amp; Scientific</option>
+                  <option value="search-alias=digital-text">Kindle Store</option>
+                  <option value="search-alias=fashion-luggage">Luggage &amp; Travel Gear</option>
+                  <option value="search-alias=luxury-beauty">Luxury Beauty</option>
+                  <option value="search-alias=magazines">Magazine Subscriptions</option>
+                  <option value="search-alias=movies-tv">Movies &amp; TV</option>
+                  <option value="search-alias=mi">Musical Instruments</option>
+                  <option value="search-alias=office-products">Office Products</option>
+                  <option value="search-alias=lawngarden">Patio, Lawn &amp; Garden</option>
+                  <option value="search-alias=pets">Pet Supplies</option>
+                  <option value="search-alias=pantry">Prime Pantry</option>
+                  <option value="search-alias=software">Software</option>
+                  <option value="search-alias=sporting">Sports &amp; Outdoors</option>
+                  <option value="search-alias=tools">Tools &amp; Home Improvement</option>
+                  <option value="search-alias=toys-and-games">Toys &amp; Games</option>
+                  <option value="search-alias=videogames">Video Games</option>
+                  <option value="search-alias=wine">Wine</option>
+                </select><input   ng-model="searchingText;" type="search" name="search" value="What are you looking for?" onBlur="if(this.value=='')this.value='What are you looking for?'" onFocus="if(this.value=='What are you looking for?')this.value='' "> <!-- JS because of IE support; better: placeholder="What are you looking for?" -->
+                <fieldset  >
+
+                  <input   type="submit" ng-click="searching(searchingText)" value="Search" class="button">
 
                 </fieldset>
 
@@ -60,46 +266,63 @@
             </div> <!-- end search -->
 
           <!--</div> &lt;!&ndash; end container &ndash;&gt;-->
-        </div>
-         </li>
+        </li>
+         <!--</li>-->
         <!--<li> <a id="fb-account" class="large button blue">login with Facebook</a></li>-->
         <!--<div class="avatar"></div>-->
 
-        <li id="nav-tools" align="right">
+        <li  id="nav-tools">
           <a href="#/signIn"   class="nav-a nav-a-2" data-nav-ref="nav_ya_signin" data-nav-role="signin" id="nav-link-yourAccount"
              tabindex="60">
 
-            <span ng-show="" class="nav-line-1">Hello. Sign in</span>
-            <span ng-hide="" class="nav-line-1">Sign out</span>
+            <span ng-hide="userName" class="nav-line-1">Hello. Sign in</span>
+            <span ng-show="userName" class="nav-line-1">Sign out</span>
             <!--<span class="nav-line-4">Your Account</span>-->
 
           </a>
+</li>
 
-        </li>
-        <li style="margin:10px">
-          <div    style="width: 120px";>
-            <div style="width: 35px;height: 40px" class="avatar" >
-              <!--<img width="35px" height="40px" src="{{vm.user.AVATAR}}">-->
+<li>
+
+            <div style="margin: 5px ;width: 35px;height: 40px" class="avatar" >
+              <a  href="#/userPage" ng-show="userName"><img width="35px" height="40px" src="{{userData[0].AVATAR}}"></a>
 
             </div>
-            Hi {{userName}}!
-            <div class="star-rating" star-rating rating-value="rating=4" data-max="5"></div>
-          </div>
-           </li>
+</li>
+        <li>
+            <div><a href="#/userPage" ng-show="userName">Hi,{{userName}}!</a></div>
+            <div class=" star-rating" star-rating rating-value="rating=userData[0].CURRENT_RATE" data-max="5"></div>
+      </li>
           <!--<span style="font-size: large;">Содержание сообщения</span>-->
           <!--<input id="status" size="60" type="text" value="Демонстрационное приложение для сайта RUSELLER.COM" />-->
           <!--<br/><a href='#' onclick='setStatus(); return false;'>Разместить в ленте новостей Facebook!</a>-->
            <!--<p align="center"><fb:like-box profile_id="145726158803248" stream="false" header="false"></fb:like-box></p>&ndash;&gt;</li>-->
-      </ul>
 
+    </ul>
     </div><!-- /.nav-collapse -->
   </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
 
+<!--<div  style="background-color: #111;margin-top: 350px;position: fixed;height:60px;z-index: 1000" class="col-md-12">-->
+  <!--<div class="col-md-1">-->
+
+    <!--<div style="width: 35px;height: 40px;width: 50%; margin: 0 auto; text-align: center" class="avatar" >-->
+      <!--<img style="text-align:center;" width="35px" height="40px" ng-src="{{userData[0].AVATAR}}">-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+
+  <!--<div class="col-md-2"><a>Hi, {{userData[0].USERNAME}}!</a>-->
+    <!--<div class="star-rating" star-rating rating-value="rating=userData[0].CURRENT_RATE" data-max="5"></div>-->
+  <!--</div>-->
 
 
-<div class="container">
+<!--</div>-->
+
+
+<div style="margin-top:70px" >
 <!--<div ng-controller="ElasticSeachCtrl">-->
   <!--<div class="container">-->
     <!--<div class="row" id="login-container">-->
@@ -130,7 +353,8 @@
     <!--</div>-->
   <!--</div>-->
 <!--</div>-->
-  <ng-view></ng-view>
+
+  <ng-view ></ng-view>
 
 
   <hr>

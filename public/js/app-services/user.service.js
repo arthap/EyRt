@@ -11,8 +11,12 @@
 
         service.GetProductList = GetProductList;
         service.GetProductDetailById=GetProductDetailById;
+        service.GetProductReviewtById=GetProductReviewtById;
         service.GetProductDetailImageById=GetProductDetailImageById;
         service.PostProductReviewById=PostProductReviewById;
+        service.AddFollowProduct=AddFollowProduct;
+        service.AddLike=AddLike;
+        service.AddDisLike=AddDisLike;
         service.GetAll = GetAll;
         service.GetById = GetById;
         service.GetByUserEmail = GetByUserEmail;
@@ -33,7 +37,36 @@
         function GetProductDetailById(id) {
             return $http.post('/GetProductDetailById/' + id).then(handleSuccess, handleError('Error getting product by id'));
         }
-       
+        function GetProductReviewtById(id) {
+            return $http.post('/GetProductReviewtById/' + id)
+                .then(handleSuccess, handleError('Error getting product by id'));
+        }
+        function AddLike(id) {
+            return $http.post('/AddLike/' + id).then(handleSuccess, handleError('Error getting product by id'));
+        }
+        function AddDisLike(id) {
+            return $http.post('/AddDisLike/' + id).then(handleSuccess, handleError('Error getting product by id'));
+        }
+        function AddFollowProduct(userId,productId,categoryId) {
+            var deferred = $q.defer();
+            $http({
+
+                method: 'POST',
+                url: '/AddFollowProduct',
+                data: 'userId=' + userId + '&productId=' + productId + '&categoryId=' + categoryId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (respond) {
+                deferred.resolve({success: true});
+                // if success
+                console.log(respond);
+            }, function (error) {
+                // if an error
+                deferred.resolve({success: false, message: error.data});
+                console.error(error);
+            });
+            return deferred.promise;
+            // return $http.post('AddFollowProduct/' + productId).then(handleSuccess, handleError('Error updating user'));
+        }
         function GetAll() {
             return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }

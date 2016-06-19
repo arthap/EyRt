@@ -13,6 +13,7 @@
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
+        service.SetUserData=SetUserData;
 
         return service;
 
@@ -25,8 +26,8 @@
                 UserService.GetByUserEmail(email)
                     .then(function (user) {
                         if (user !== null && user[0].PASSWORD === password) {
-                            UserDataService.setUserData(user);
-                            
+                            // UserDataService.setUserData(user);
+                            SetUserData(user);
                             userData.username=user[0].USERNAME;
                             response = { success: true };
                         } else {
@@ -61,10 +62,23 @@
             $cookieStore.put('globals', $rootScope.globals);
         }
 
+        function SetUserData(data) {
+
+            $rootScope.userData = {
+                currentUser: data
+            };
+
+            // $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
+            $cookieStore.put('userData', $rootScope.userData);
+        }
         function ClearCredentials() {
             $rootScope.globals = {};
             userData={};
             $cookieStore.remove('globals');
+            $rootScope.userData = {};
+
+            $cookieStore.remove('userData');
+            
             $http.defaults.headers.common.Authorization = 'Basic';
         }
     }

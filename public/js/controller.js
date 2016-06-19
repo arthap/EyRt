@@ -141,7 +141,30 @@ easyrateApp.factory('Phone', [
 		//Phone.update(params, successcb, errorcb);
 	}
 ]);
-
+// easyrateApp.service('UserDataService', function($cookieStore,$rootScope){
+// 	var service = {};
+// 	var myData = [];
+//
+// 	service.setUserData = setUserData;
+// 	service.getUserData = getUserData;
+// 	service.ClearData=ClearData;
+// 	return service;
+//
+//
+// 	function setUserData (){
+// 		$rootScope.globals = $cookieStore.get('globals') || {};
+// 		if ($rootScope.globals.currentUser) {
+// 		myData.push($cookieStore.get('userData').currentUser);}
+// 	};
+//
+// 	function getUserData(){
+// 		return  myData[0];
+// 	};
+// 	function ClearData() {
+// 		myData=[];
+// 	}
+//
+// });
 /* Filter */
 easyrateApp.filter('checkmark', function() {
 	return function(input) {
@@ -159,6 +182,7 @@ easyrateApp.controller('easyRateListCtrl',[
 		});
 		$scope.searchingText = ""
 		$scope.searching = function(searchingText){
+			$location.path('/');
 			$scope.errorResult=""
 			UserService.GetProductList($scope.searchingText)
 				.then(function (user) {
@@ -171,16 +195,21 @@ easyrateApp.controller('easyRateListCtrl',[
 				});
 
 		}
-		$scope.userData={};
-		$scope.userData=UserDataService.getUserData();
+	
+			UserDataService.setUserData();
+			$scope.userData={};
+			$scope.userData=UserDataService.getUserData();
 
-		// if($cookieStore.get('globals').isObject){
-		//     UserModelService.setUser($cookieStore.get('globals').currentUser);
-		//     $scope.userData= $cookieStore.get('globals').currentUser;
-		if($scope.userData!==undefined){
-			$scope.userName =$scope.userData[0].USERNAME;
+			// if($cookieStore.get('globals').isObject){
+			//     UserModelService.setUser($cookieStore.get('globals').currentUser);
+			//     $scope.userData= $cookieStore.get('globals').currentUser;
+			if($scope.userData!==undefined){
 
-			console.log("baaa"+$scope.userData[0].USERNAME)}
+				$scope.userName =$scope.userData[0].USERNAME;
+
+				console.log($scope.userData[0].USERNAME)}
+		
+
 
 		// }
 		//Phone.query(params, successcb, errorcb)
@@ -190,6 +219,7 @@ easyrateApp.controller('easyRateListCtrl',[
 		//Phone.save(params, payloadData, successcb, errorcb)
 
 		//Phone.delete(params, successcb, errorcb)
+
 
 	}
 ]);
@@ -221,18 +251,24 @@ easyrateApp.controller('SingInCtrl',[
 
 		(function initController() {
 			// reset login status
+		
 			AuthenticationService.ClearCredentials();
 			UserDataService.ClearData();
+
+
 		})();
 
-
+      $scope.logout=function () {
+	   window.location.reload();
+     }
 		function login() {
 			vm.dataLoading = true;
 			AuthenticationService.Login(vm.email, vm.password, function (response) {
 				if (response.success) {
 					AuthenticationService.SetCredentials( vm.password,vm.email);
 
-					$location.path('/userPage');
+					$location.path('/');
+					window.location.reload();
 				} else {
 					FlashService.Error(response.message);
 					vm.dataLoading = false;
@@ -358,6 +394,7 @@ easyrateApp.controller('UserPageCtrl',[
 		// console.log($rootScope.globals);
 		console.log(vm.user);
 		vm.login = login;
+		vm.reviewData=reviewData;
 
 		vm.submit = function () {
 			Upload.upload({
@@ -373,7 +410,18 @@ easyrateApp.controller('UserPageCtrl',[
 				// console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
 			});
 		};
+		function reviewData() {
+			UserService.GetProductReviewtById(42)
+				.then(function (productReviewById) {
+					$scope.getProductDetaiReviewList = [];
+					if (productReviewById.length > 0) {
+						$scope.getProductDetaiReviewList = productReviewById;
+						// $scope.mainReviewImageUrl =  $scope.getProductDetaiReviewList[0].RESOURCE;
+					} else {
 
+					}
+				});
+		}
 		function login() {
 			UserService.GetByUserEmail(vm.userdata.email)
 				.then(function (user) {
@@ -412,15 +460,39 @@ easyrateApp.controller('addProductCtrl',[
 		};
 
 
+
 	}
 ]);
 /* Phone Detail Controller */
 easyrateApp.controller('PhoneDetailCtrl',[
-	'$scope','$http', '$location', '$routeParams', 'Phone','UserService',
-	function($scope, $http, $location, $routeParams, Phone,UserService) {
+	'$scope','$http', '$location', '$routeParams', 'Phone','UserService','UserDataService','$rootScope','$cookieStore','Upload',
+	function($scope, $http, $location, $routeParams, Phone,UserService,UserDataService,$rootScope,$cookieStore,Upload) {
 		$scope.productId = $routeParams.productId;
 		var vm = this;
 		vm.reviewDiscription = reviewDiscription;
+		vm.reviewData=reviewData;
+		vm.followProduct=followProduct;
+
+		// // upload later on form submit or something similar
+		// $scope.submit = function() {
+		// 	if ( $scope.files) {
+		// 		$scope.uploadFiles ( $scope.files);
+		// 	}
+		// };
+
+	
+		// $scope.uploadFiles = function (files) {
+		// 	if (files && files.length) {
+		// 		for (var i = 0; i < files.length; i++) {
+		// 			Upload.upload({ url:'/api/photo3', data: {id: 42,file: files[i]}});
+		// 		}
+		// 		// or send them all together for HTML5 browsers:
+		// 		Upload.upload({url:'/api/photo3',fieldname:'reviewPhoto', data: {id: 42,file: files}});
+		// 	}
+		// }
+
+
+
 		Phone.get({productId: $routeParams.productId}, function(data) {
 			$scope.phone = data;
 			$scope.mainImageUrl = data.images[0];
@@ -439,6 +511,7 @@ easyrateApp.controller('PhoneDetailCtrl',[
 		$scope.hidden1 =true;
 		$scope.hidden2 =true;
 		$scope.hidden3 =true;
+		$scope.userData={};
 		vm.productId=$routeParams.productId;
 		vm.review='';
 
@@ -447,8 +520,8 @@ easyrateApp.controller('PhoneDetailCtrl',[
 			.then(function (productDetailById) {
 				if (productDetailById.length >0) {
 					$scope.getProductDetailList = productDetailById;
-					vm.userId=productDetailById[0].CREATER_USER_ID;
-vm.status=productDetailById[0].STATUS;
+
+                    vm.status=productDetailById[0].STATUS;
 
 				} else {
 
@@ -465,17 +538,103 @@ vm.status=productDetailById[0].STATUS;
 			});
 
 
-	
-vm.like=1;
-		vm.disLike=1;
+		function followProduct() {
+			$rootScope.userData = $cookieStore.get('userData') || {};
+			if ($rootScope.userData.currentUser) {
+				var userId=$rootScope.userData.currentUser[0].ID
+				 	}
 
+			UserService.AddFollowProduct(userId,$routeParams.productId,4)
+				.then(function (reg) {
+
+					if (reg.sucsess ===true) {
+
+						// $scope.mainReviewImageUrl =  $scope.getProductDetaiReviewList[0].RESOURCE;
+					} else {
+
+					}
+				});
+		}
+		$scope.like=function (reviewId) {
+			UserService.AddLike(reviewId)
+				.then(function (req) {
+
+					if (req.sucsess ===true) {
+						reviewData();
+						// $scope.mainReviewImageUrl =  $scope.getProductDetaiReviewList[0].RESOURCE;
+					} else {
+
+					}
+				});
+		}
+		$scope.disLike=function (reviewId)  {
+			UserService.AddDisLike(reviewId)
+				.then(function (req) {
+
+					if (req.sucsess ===true) {
+						reviewData();
+						// $scope.mainReviewImageUrl =  $scope.getProductDetaiReviewList[0].RESOURCE;
+					} else {
+
+					}
+				});
+		}
+		function reviewData() {
+			UserService.GetProductReviewtById($routeParams.productId)
+				.then(function (productReviewById) {
+					$scope.getProductDetaiReviewList = [];
+					if (productReviewById.length > 0) {
+						$scope.getProductDetaiReviewList = productReviewById;
+						// $scope.mainReviewImageUrl =  $scope.getProductDetaiReviewList[0].RESOURCE;
+					} else {
+
+					}
+				});
+		}
+        vm.like=1;
+		vm.disLike=1;
+		vm.submit = function () {
+			Upload.upload({
+				url: '/api/photo',
+				data: {id: vm.userData.ID,file: vm.file }
+			}).then(function (resp) {
+				console.log('Success ' + resp );
+				login();
+			}, function (resp) {
+				console.log('Error status: ' + resp );
+			}, function (evt) {
+				vm.progress = parseInt(100.0 * evt.loaded / evt.total+'%');
+				// console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+			});
+		};
 
 		function reviewDiscription() {
+			
+			$scope.userData=UserDataService.getUserData();
+
+            //
+			// Upload.upload({
+			// 	url: '/api/photo3',
+			// 	data: {id: vm.userData.ID,file: vm.file[0] }
+			// }).then(function (resp) {
+			// 	console.log('Success ' + resp );
+			// 	login();
+			// }, function (resp) {
+			// 	console.log('Error status: ' + resp );
+			// }, function (evt) {
+			// 	vm.progress = parseInt(100.0 * evt.loaded / evt.total+'%');
+			// 	// console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+			// });
+
+			if($scope.userData!==undefined){
+				vm.userId=$scope.userData[0].ID; }
 			UserService.PostProductReviewById(vm)
-				.then(function (productImageById) {
-					if (productImageById.length > 0) {
-						$scope.getProductDetaiImagelList = productImageById;
-						$scope.mainImageUrl = $scope.getProductDetaiImagelList[0].RESOURCE;
+				.then(function (reviewAdd) {
+					if (reviewAdd.success === true ) {
+						vm.reviewData();
+						// reviewData();
+						// $scope.getProductDetaiImagelList = productImageById;
+						// $scope.mainImageUrl = $scope.getProductDetaiImagelList[0].RESOURCE;
 					} else {
 
 					}

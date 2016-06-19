@@ -1,19 +1,37 @@
+
+
+
 <div class="row row-offcanvas row-offcanvas-right">
-	<div class="col-xs-12 col-sm-8">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<p class="pull-right visible-xs">
 			<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
 		</p>
 		<div class="jumbotron text-center">
 			<h1>Easy Rate App</h1>
 			<p>bla-bla-blaaa</p>
+
+		</div>
+		<div  style="background-color: #111;margin-top: 1px;position: relative;height: 60px;z-index: 1000" class="col-xs-12 col-sm-12 col-md-12">
+			<div class="col-md-1">
+
+				<div ng-show="userData[0].USERNAME" style="width: 35px;height: 40px; margin: 0 auto; text-align: center" class="avatar" >
+					<img style="text-align:center;" width="35px" height="40px" ng-src="{{userData[0].AVATAR}}">
+
+				</div>
+
+			</div>
+			<div ng-show="userData[0].USERNAME" class="col-md-2"><a>Hi, {{userData[0].USERNAME}}!</a>
+				<div class="star-rating" star-rating rating-value="rating=userData[0].CURRENT_RATE" data-max="5"></div>
+			</div>
+
+
 		</div>
 
-
          <div align="center" style="color: red" ng-show="errorResult">{{errorResult}} </div>
-		<div class="col-xs-12 col-sm-6 col-lg-4 item" ng-repeat="product in getProductList">
+		<div class="col-xs-12 col-sm-6  col-lg-3 item" ng-repeat="product in getProductList">
 			<div class="preview-img text-center">
 
-				<img ng-src="{{product.RESOURCE}}" alt="{{product.RESOURCE}}"/>
+				<img  ng-src="{{product.RESOURCE}}" alt="{{product.RESOURCE}}"/>
             <span class="label"
 				  ng-init="status = product.STATUS ? 'Есть в наличии' : 'Под заказ'"
 				  ng-class="{'label-success':phone.status, 'label-warning': !phone.status}">
@@ -31,7 +49,10 @@
 		</div><!--/.col-sm-6.col-lg-4-->
 
 
-			<div class="col-xs-12 col-sm-6 col-lg-4 item" ng-repeat="phone in phones | filter: search">
+
+
+<!-- ///////////////////////////////phone-->
+			<div class="col-xs-12 col-sm-6 col-lg-3 item" ng-repeat="phone in phones | filter: search">
 				<div class="preview-img text-center">
 
 					<img ng-src="{{phone.imageUrl}}" alt="{{phone.name}}"/>

@@ -15,8 +15,12 @@
                                 ngf-pattern="'image/*'"
                                 accept="image/*"
                                 ngf-max-size="5MB"
+                               multiple
                                required
                         />
+                        <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+                             ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+                             ngf-resize="{width: 500, height: 500}">Select</div>
                         <!--<input   style="height: auto" class="form-control"-->
                                  <!--type="file"-->
                                  <!--ngf-select-->
@@ -55,9 +59,9 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">Short Text:</label>
                         <div class="col-sm-4">
-						 <textarea id="shortText" maxlength="48"  class="form-control" name="shortText"
+						 <textarea id="shortText" maxlength="200"  class="form-control" name="shortText"
                                           ng-model="vm.shortText"
-                                          placeholder="Short_Text" value="" required></textarea>
+                                          placeholder="Short_Text" value="" rows="5" required></textarea>
                             <span style="color: red;" id="shortTextError"> </span>
                             <span ng-show="form.shortText.$dirty && form.shortText.$error.required" class="help-block">Short Text is required</span>
                         </div>
@@ -77,7 +81,7 @@
 
 								<textarea id="descriptionSave" maxlength=44 type="text" value=""
                                           name="description" class="form-control"
-                                          ng-model="vm.description" placeholder="description" required></textarea>
+                                          ng-model="vm.description" placeholder="description" rows="10" required></textarea>
                             <span style="color: red" id="descriptionError"> </span>
                             <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
                         </div>

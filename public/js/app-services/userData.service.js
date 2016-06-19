@@ -16,11 +16,14 @@
         service.ClearData=ClearData;
         return service;
 
-        function setUserData (data){
-            myData.push(data);
+
+        function setUserData (){
+            $rootScope.globals = $cookieStore.get('globals') || {};
+            if ($rootScope.globals.currentUser) {
+                myData.push($cookieStore.get('userData').currentUser);}
         };
 
-         function getUserData(){
+        function getUserData(){
             return  myData[0];
         };
         function ClearData() {
